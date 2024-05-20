@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eye Image Classifier</title>
+</head>
+<body>
+    <h1>Eye Image Classifier</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="image" name="image">
+        <button type="button" id="predict-button">Predict</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('predict-button').addEventListener('click', function() {
+            var form = document.getElementById('upload-form');
+            var formData = new FormData(form);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Prediction: ' + data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
